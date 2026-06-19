@@ -2,9 +2,10 @@
 
 using Azure.AI.OpenAI;
 using Azure.Identity;
+using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using OpenAI.Chat;
-using System.ClientModel;
+using System.Text.Json.Serialization;
 
 var deploymentName = Environment.GetEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME") ?? 
         throw new InvalidOperationException("Missing environment variable: AZURE_OPENAI_DEPLOYMENT_NAME");
@@ -37,11 +38,30 @@ IChatClient chatClient = new AzureOpenAIClient(
 
 var friendlyChatAgent = chatClient.AsAIAgent(
     name: "FriendlyChatAgent",
-    instructions: "You are a friendly assistant. Make sure answers very short."
+    instructions: "You are a friendly assistant. Make sure answers very concise."
 );
 
-var query = "what is the capital of india?";
 
-var answer = await friendlyChatAgent.RunAsync(query);
+AgentSession session = await friendlyChatAgent.CreateSessionAsync();
 
-Console.WriteLine("Answer: " + answer);
+while (true)
+{
+    Console.Write("> ");
+
+    var query = Console.ReadLine();
+
+    var answer = await friendlyChatAgent.RunAsync<AnalysisResponse>(query!, session);
+
+    Console.WriteLine("Answer: " + answer);
+
+}
+
+// response contract
+public record AnalysisResponse
+(
+    [property: JsonPropertyName("question")]
+    string Question,
+
+    [property: JsonPropertyName("response")]
+    string Response
+);
