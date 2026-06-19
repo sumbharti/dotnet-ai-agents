@@ -1,3 +1,8 @@
 <Solution>
+  <Folder Name="/MinimalAgent/">
+    <Project Path="MinimalAgent/MinimalAgentApi/MinimalAgentApi.csproj" />
+  </Folder>
+  <Project Path="develop-agents.AppHost/develop-agents.AppHost.csproj" Id="dcae2456-9e7a-4e0b-bb83-c4e83827b1f9" />
+  <Project Path="develop-agents.ServiceDefaults/develop-agents.ServiceDefaults.csproj" />
   <Project Path="develop-agents/develop-agents.csproj" />
 </Solution>
