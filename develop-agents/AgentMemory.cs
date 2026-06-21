@@ -24,14 +24,15 @@ namespace develop_agents
                 .GetChatClient(deploymentName)
                 .AsIChatClient();
             }
-
-            chatClient = new AzureOpenAIClient(
-                new Uri(endpoint),
-                new AzureCliCredential()
-            )
-            .GetChatClient(deploymentName)
-            .AsIChatClient();
-
+            else
+            {
+                chatClient = new AzureOpenAIClient(
+                    new Uri(endpoint),
+                    new AzureCliCredential()
+                )
+                .GetChatClient(deploymentName)
+                .AsIChatClient();
+            }
 
             sessionRepository = new MockCosmosDbRepository();
         }

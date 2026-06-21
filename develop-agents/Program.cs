@@ -12,7 +12,5 @@ var apiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY") ??
 Console.WriteLine("Endpoint: " + endpoint);
 Console.WriteLine("Deployment Name: " + deploymentName);
 
-AgentMemory agentMemory = new AgentMemory(endpoint, deploymentName);
-await agentMemory.PersistAgentSession();
-
-Console.WriteLine("Press any key to exit...");
+AgentWorkflows agentWorkflows = new AgentWorkflows(endpoint, deploymentName);
+await agentWorkflows.ExecuteTicketManagementWorkflow();
