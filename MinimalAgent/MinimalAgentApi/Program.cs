@@ -51,6 +51,9 @@ builder.AddOrderRefundWorkflowGroupChat();
 
 #endregion
 
+var complianceAgent = builder.A2AServerComplianceAgent(chatClient);
+complianceAgent.AddA2AServer();
+
 // 4. Register DevUI services
 builder.AddDevUI();
 builder.Services.AddOpenAIResponses();
@@ -74,5 +77,9 @@ app.MapGroup("/api")
 app.MapGroup("/ai")
     .AiAgentEndpoints()
     .WithTags(nameof(AiAgent));
+
+
+// Expose the agent via the A2A HTTP+JSON protocol
+app.MapA2AHttpJson(complianceAgent, path: "/a2a/compliance");
 
 app.Run();
