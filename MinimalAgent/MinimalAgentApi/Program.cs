@@ -1,9 +1,10 @@
 using Azure.AI.OpenAI;
 using Azure.Identity;
+using Microsoft.Agents.AI;
 using Microsoft.Agents.AI.DevUI;
-using Microsoft.Agents.AI.Hosting;
 using Microsoft.Extensions.AI;
 using MinimalAgentApi.Endpoints;
+using MinimalAgentApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,16 +27,29 @@ IChatClient chatClient = new AzureOpenAIClient(
 builder.Services.AddSingleton(chatClient);
 
 // 3. Define and Register the Agents
-builder.AddAIAgent(
-    name: "NetworkSupportAgent",
-    instructions:
-        """
-        You are a Tier 1 IT Support Agent.
-        Your answers must be concise, professional, and limited strictly to troubleshooting network and VPN connectivity.        
-        Keep responses concise — 1-2 sentences per turn. Be direct and opinionated.        
-        """,
-    chatClient);
 
+builder.AddNetworkSupportAgentExtension(chatClient);
+
+#region Agent Pattern with Sequential/Group Chat implementation
+
+/////// AGENT DEFINITIONS ///////
+
+// Triage Agent - routes to specialists
+builder.AddTriageAgentExtension(chatClient);
+
+// Order Agent - handles order requests
+builder.AddOrderAgentExtension(chatClient);
+
+// Refund Agent - handles refund requests
+builder.AddRefundAgentExtension(chatClient);
+
+// Sequential Workflow (registered as an agent for DevUI discovery)
+builder.AddOrderRefundWorkflowSequential();
+
+// Group Chat Workflow (registered as an agent for DevUI discovery)
+builder.AddOrderRefundWorkflowGroupChat();
+
+#endregion
 
 // 4. Register DevUI services
 builder.AddDevUI();
