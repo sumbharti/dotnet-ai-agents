@@ -12,5 +12,5 @@ var apiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY") ??
 Console.WriteLine("Endpoint: " + endpoint);
 Console.WriteLine("Deployment Name: " + deploymentName);
 
-AgenticWorkflowPatterns patterns = new AgenticWorkflowPatterns(endpoint, deploymentName);
-patterns.Execute().GetAwaiter().GetResult();
+DeclarativeAgents declarativeAgents = new DeclarativeAgents(endpoint, deploymentName);
+declarativeAgents.Execute().GetAwaiter().GetResult();
