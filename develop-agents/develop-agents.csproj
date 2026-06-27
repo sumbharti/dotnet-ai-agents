@@ -19,4 +19,9 @@
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.74.0-preview" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Skills\unit-converter\references\" />
+    <Folder Include="Skills\unit-converter\scripts\" />
+  </ItemGroup>
+
 </Project>
