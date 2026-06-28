@@ -12,5 +12,5 @@ var apiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY") ??
 Console.WriteLine("Endpoint: " + endpoint);
 Console.WriteLine("Deployment Name: " + deploymentName);
 
-AgenticSkills agenticSkills = new AgenticSkills(endpoint, deploymentName);
-agenticSkills.Execute().GetAwaiter().GetResult();
+LocalMCPTool mCPToolExample = new LocalMCPTool(endpoint, deploymentName);
+mCPToolExample.SearchDataverseWithMCP("<Dataverse-Instance-Url>").GetAwaiter().GetResult();
