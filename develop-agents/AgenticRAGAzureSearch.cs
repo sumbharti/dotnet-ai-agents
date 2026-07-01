@@ -159,14 +159,13 @@ namespace develop_agents
 
             var options = new SearchOptions
             {
-                Size = 5,
                 Select = { "DocumentId", "Title", "Content" }
             };
             options.VectorSearch = new VectorSearchOptions();
 
             options.VectorSearch.Queries.Add(new VectorizedQuery(queryVector)
             {
-                KNearestNeighborsCount = 1,
+                KNearestNeighborsCount = 3,
                 Fields = { "ContentVector" }
             });
 
@@ -182,8 +181,6 @@ namespace develop_agents
                     SourceLink = $"adr://{item.Document.DocumentId}",
                     Text = $"Title: {item.Document.Title}\nContent: {item.Document.Content}"
                 });
-
-                break; // Only take the top result
             }
 
             return results;
